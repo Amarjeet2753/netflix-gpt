@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import { bg_img } from "../utils/constant";
 import { validateForm } from "../utils/validateform";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useSelector,useDispatch } from "react-redux";
+import { signInUser, signUpUser } from "../redux/actions/authAction";
 
 {
   /* <div style={{backgroundImage : ` linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),url(${bg_img})`}} className='h-screen flex justify-center items-center'> */
 }
 
 const LoginSingup = () => {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  
+  const {user} =  useSelector(state =>state.auth)
+  
+
   const [isSignIn, setSignup] = useState(true);
 
   const [errors, setErrors] = useState({});
+
+
+  useEffect(()=>{
+    if(user)
+      navigate('/browse')
+  },[user])
+
 
   const [formData, setFormData] = useState({
     name: "",
@@ -25,7 +42,7 @@ const LoginSingup = () => {
   const handleSubmitForm = (e) => { 
     e.preventDefault()
     const validationErr= validateForm(formData)
-    console.log("form add datat = ", formData);
+   
     
     if(isSignIn) delete validationErr["name"]
     setErrors(validationErr);
@@ -41,6 +58,16 @@ const LoginSingup = () => {
     } else {
       alert("All fields required with valid input");
     }
+
+    if(isSignIn){
+      dispatch(signInUser(formData))
+    
+    }
+    else{
+        dispatch(signUpUser(formData))
+    }
+
+
   };
 
   return (
@@ -50,7 +77,7 @@ const LoginSingup = () => {
       <div className="absolute top-0 bottom-0 left-0 right-0 bg-black opacity-50"></div>
 
       <div className="absolute flex justify-center w-full top-0 mt-28">
-        <div className="w-[70%] md:w-[25%] text-white  bg-black opacity-90 px-8 py-4">
+        <div className="w-[70%] lg:w-[30%] md:w-[40%] text-white  bg-black opacity-90 px-8 py-4">
           <h1 className="font-bold text-3xl m-3 ">
             {isSignIn ? "Sign In " : "Sign Up"}
           </h1>
