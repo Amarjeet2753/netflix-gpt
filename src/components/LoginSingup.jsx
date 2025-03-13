@@ -22,11 +22,13 @@ const LoginSingup = () => {
 
   const [errors, setErrors] = useState({});
 
+  console.log("user=",user)
 
-  useEffect(()=>{
-    if(user)
-      navigate('/browse')
-  },[user])
+  // useEffect(()=>{
+  //   if(user)
+  //     navigate('/browse')
+  // },[])
+
 
 
   const [formData, setFormData] = useState({
@@ -70,11 +72,20 @@ const LoginSingup = () => {
 
   };
 
-  return (
-    <div className="relative">
-      <img src={bg_img} className=" object-cover object-center" />
 
-      <div className="absolute top-0 bottom-0 left-0 right-0 bg-black opacity-50"></div>
+
+
+  if(user){
+    return <Navigate to='/browse'/>
+  }
+
+
+  return (
+    
+    <div className="">
+      {/* <img src={bg_img} className=" object-cover object-center" />
+
+      <div className="absolute top-0 bottom-0 left-0 right-0 bg-black opacity-50"></div> */}
 
       <div className="absolute flex justify-center w-full top-0 mt-28">
         <div className="w-[70%] lg:w-[30%] md:w-[40%] text-white  bg-black opacity-90 px-8 py-4">
@@ -120,6 +131,8 @@ const LoginSingup = () => {
             <button className="bg-red-600 font-bold p-2 m-3 w-full px" onClick={handleSubmitForm}>
               Sign {isSignIn ? "In" : "Up"}{" "}
             </button>
+            <p className="p-2 m-2 text-center font-bold">OR</p>
+            <p className="p-2 m-2 text-center font-bold underline cursor-pointer" onClick={()=>navigate('/forgot-password')}>Forgot password?</p>
             <p className="my-2 p-3" onClick={() => setSignup(!isSignIn)}>
               {isSignIn
                 ? "New to Netflix?Sign up now."
