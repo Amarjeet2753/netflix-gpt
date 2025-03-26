@@ -50,11 +50,6 @@ export const authReducer = (state =initialState ,action)=>{
             loading : false,
             errors :action.payload
         }
-
-      
-      
-
-
         
         default : return state;
     }
